@@ -1,0 +1,62 @@
+<div class="register-container">
+  <div class="register-box">
+    <div class="register-header">
+      <h2>Create Account</h2>
+      <p class="text-muted">Join us today! Fill in your details to get started.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-user"></i>
+          </span>
+          <input type="text" class="form-control" formControlName="username" placeholder="Choose a username" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <input type="email" class="form-control" formControlName="email" placeholder="Enter your email" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-lock"></i>
+          </span>
+          <input type="password" class="form-control" formControlName="password" placeholder="Create a password" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div class="role-selector">
+          <div class="role-option" [class.selected]="form.get('role')?.value === 'student'" (click)="form.patchValue({role: 'student'})">
+            <i class="fas fa-user-graduate"></i>
+            <span>Student</span>
+          </div>
+          <div class="role-option" [class.selected]="form.get('role')?.value === 'teacher'" (click)="form.patchValue({role: 'teacher'})">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Teacher</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary w-100 register-btn" type="submit" [disabled]="form.invalid">
+        Create Account
+      </button>
+
+      <div class="login-link">
+        <p>Already have an account? <a routerLink="/login">Login here</a></p>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="result-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading">
+    <div class="loading-content">
+      <i class="fas fa-spinner fa-spin loading-spinner"></i>
+      <h2>Loading Result...</h2>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <div class="error-content">
+      <i class="fas fa-exclamation-circle"></i>
+      <h2>An Error Occurred</h2>
+      <p>{{ error }}</p>
+      <button (click)="loadExamResult()" class="retry-btn">Retry</button>
+    </div>
+  </div>
+
+  <!-- Result Content -->
+  <div *ngIf="result && !isLoading && !error" class="result-content">
+    <!-- Result Header -->
+    <div class="result-header">
+      <h1>Exam Result</h1>
+      <h2>{{ result.examTitle }}</h2>
+    </div>
+
+    <!-- Score Summary -->
+    <div class="result-summary">
+      <div class="score-display">
+        <div class="score-circle" [class.failed]="!result.passed">
+          <span class="score-value">{{ result.score | number:'1.0-0' }}%</span>
+        </div>
+        <div class="score-label">{{ result.passed ? 'Passed' : 'Failed' }}</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value">{{ result.passingMarks }}%</div>
+          <div class="stat-label">Passing Score</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ result.totalQuestions }}</div>
+          <div class="stat-label">Total Questions</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ result.correctAnswers }}</div>
+          <div class="stat-label">Correct Answers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ result.wrongAnswers }}</div>
+          <div class="stat-label">Wrong Answers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ result.unansweredQuestions }}</div>
+          <div class="stat-label">Unanswered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ result.timeTaken }}</div>
+          <div class="stat-label">Time Taken (min)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Review -->
+    <div class="question-review">
+      <div class="review-header">
+        <h2>Question Review</h2>
+      </div>
+
+      <div class="review-list">
+        <div *ngFor="let question of result.questions; let i = index" 
+             class="review-item"
+             [class.correct]="question.isCorrect"
+             [class.incorrect]="!question.isCorrect && question.userAnswer"
+             [class.unanswered]="!question.userAnswer">
+          
+          <div class="question-header">
+            <span class="question-number">Question {{ i + 1 }}</span>
+            <span class="question-status"
+                  [class.status-correct]="question.isCorrect"
+                  [class.status-incorrect]="!question.isCorrect && question.userAnswer"
+                  [class.status-unanswered]="!question.userAnswer">
+              {{ question.isCorrect ? 'Correct Answer' : 
+                 (!question.userAnswer ? 'Not Answered' : 'Wrong Answer') }}
+            </span>
+          </div>
+
+          <p class="question-text">{{ question.questionText }}</p>
+
+          <div class="options-list">
+            <div *ngFor="let option of question.options" 
+                 class="option-item"
+                 [class.correct]="option === question.correctAnswer"
+                 [class.incorrect]="option === question.userAnswer && option !== question.correctAnswer"
+                 [class.selected]="option === question.userAnswer">
+              <span class="option-text">{{ option }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center">
+      <button (click)="goToExams()" class="back-btn">Back to Exams</button>
+    </div>
+  </div>
+</div> 

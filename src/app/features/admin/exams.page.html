@@ -1,0 +1,138 @@
+<div class="admin-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-title">
+        <h1>Exam Management</h1>
+        <p class="text-muted">Create and manage your exams efficiently</p>
+      </div>
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="material-icons">search</i>
+          <input type="text" placeholder="Search exams..." [(ngModel)]="searchQuery" (input)="filterExams()">
+        </div>
+        <button class="add-btn" routerLink="/admin/exams/add">
+          <i class="material-icons">add</i>
+          Create New Exam
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ totalExams }}</h3>
+        <p>Total Exams</p>
+      </div>
+      <div class="stat-trend" [class.positive]="examsGrowth > 0">
+        <i class="material-icons">{{ examsGrowth > 0 ? 'trending_up' : 'trending_down' }}</i>
+        <span>{{ examsGrowth }}%</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="material-icons">help</i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ totalQuestions }}</h3>
+        <p>Total Questions</p>
+      </div>
+      <div class="stat-trend" [class.positive]="questionsGrowth > 0">
+        <i class="material-icons">{{ questionsGrowth > 0 ? 'trending_up' : 'trending_down' }}</i>
+        <span>{{ questionsGrowth }}%</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="material-icons">people</i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ totalStudents }}</h3>
+        <p>Active Students</p>
+      </div>
+      <div class="stat-trend" [class.positive]="studentsGrowth > 0">
+        <i class="material-icons">{{ studentsGrowth > 0 ? 'trending_up' : 'trending_down' }}</i>
+        <span>{{ studentsGrowth }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="filter-section">
+    <div class="filter-group">
+      <label>Sort by:</label>
+      <select [(ngModel)]="sortBy" (change)="filterExams()">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="title">Title</option>
+        <option value="duration">Duration</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Exams Grid -->
+  <div class="content-wrapper">
+    <div class="exams-grid" *ngIf="filteredExams.length > 0; else emptyState">
+      <div class="exam-card" *ngFor="let exam of filteredExams">
+        <div class="exam-header">
+          <div class="exam-title">
+            <h3>{{ exam.title }}</h3>
+          </div>
+          <div class="exam-actions">
+            <button class="action-btn edit" [routerLink]="['/admin/exams/edit', exam.id]" title="Edit Exam">
+              <i class="material-icons">edit</i>
+            </button>
+            <button class="action-btn delete" (click)="deleteExam(exam.id)" title="Delete Exam">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
+        </div>
+        <p class="exam-description">{{ exam.description }}</p>
+        <div class="exam-details">
+          <div class="detail-item">
+            <i class="material-icons">schedule</i>
+            <span>{{ exam.duration }} minutes</span>
+          </div>
+          <div class="detail-item">
+            <i class="material-icons">stars</i>
+            <span>{{ exam.totalMarks }} marks</span>
+          </div>
+          <div class="detail-item">
+            <i class="material-icons">check_circle</i>
+            <span>{{ exam.passingMarks }} passing</span>
+          </div>
+        </div>
+        <div class="exam-footer">
+          <button class="manage-btn" [routerLink]="['/admin/questions']" [queryParams]="{ examId: exam.id }">
+            <i class="material-icons">question_answer</i>
+            Manage Questions
+          </button>
+          <button class="view-btn" [routerLink]="['/admin/results']" [queryParams]="{ examId: exam.id }">
+            <i class="material-icons">analytics</i>
+            View Results
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <i class="material-icons">assignment</i>
+        </div>
+        <h3>No Exams Found</h3>
+        <p>{{ searchQuery ? 'No exams match your search criteria' : 'Create your first exam to get started' }}</p>
+        <button class="add-btn" routerLink="/admin/exams/add">
+          <i class="material-icons">add</i>
+          Create New Exam
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

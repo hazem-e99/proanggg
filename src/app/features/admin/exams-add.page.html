@@ -1,0 +1,124 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-content">
+      <button class="back-button" routerLink="/admin/exams">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="header-text">
+        <h1>Create New Exam</h1>
+        <p class="text-muted">Add a new exam to the system</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="exam-form-container">
+    <form [formGroup]="examForm" (ngSubmit)="onSubmit()" class="exam-form">
+      <div class="form-section">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="title">Exam Title</label>
+            <input 
+              type="text" 
+              id="title" 
+              formControlName="title" 
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('title')"
+              placeholder="Enter exam title"
+            >
+            <div class="error-message" *ngIf="isFieldInvalid('title')">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ getErrorMessage('title') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="startTime">Start Time</label>
+            <input 
+              type="datetime-local" 
+              id="startTime" 
+              formControlName="startTime" 
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('startTime')"
+              (change)="calculateEndTime()"
+            >
+            <div class="error-message" *ngIf="isFieldInvalid('startTime')">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ getErrorMessage('startTime') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="duration">Duration (minutes)</label>
+            <input 
+              type="number" 
+              id="duration" 
+              formControlName="duration" 
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('duration')"
+              placeholder="Enter exam duration"
+              (change)="calculateEndTime()"
+            >
+            <div class="error-message" *ngIf="isFieldInvalid('duration')">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ getErrorMessage('duration') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="endTime">End Time</label>
+            <input 
+              type="datetime-local" 
+              id="endTime" 
+              formControlName="endTime" 
+              class="form-control"
+              readonly
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="totalMarks">Total Marks</label>
+            <input 
+              type="number" 
+              id="totalMarks" 
+              formControlName="totalMarks" 
+              class="form-control"
+              [class.is-invalid]="isFieldInvalid('totalMarks')"
+              placeholder="Enter total marks"
+            >
+            <div class="error-message" *ngIf="isFieldInvalid('totalMarks')">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ getErrorMessage('totalMarks') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="description">Exam Description</label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            class="form-control"
+            [class.is-invalid]="isFieldInvalid('description')"
+            placeholder="Enter exam description"
+            rows="4"
+          ></textarea>
+          <div class="error-message" *ngIf="isFieldInvalid('description')">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ getErrorMessage('description') }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" routerLink="/admin/exams">
+          <i class="fas fa-times"></i>
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="examForm.invalid || loading()">
+          <i class="fas" [class.fa-spinner]="loading()" [class.fa-spin]="loading()" [class.fa-save]="!loading()"></i>
+          {{ loading() ? 'Saving...' : 'Create Exam & Add Questions' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

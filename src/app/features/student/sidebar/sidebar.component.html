@@ -1,0 +1,35 @@
+<div class="sidebar">
+  <div class="profile-section">
+    <div class="profile-image">
+      <i class="fas fa-user-graduate"></i>
+    </div>
+    <div class="profile-info">
+      <h3>{{ username }}</h3>
+      <p>{{ role }}</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a routerLink="/student/exams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-file-alt"></i>
+          <span>Available Exams</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/student/results" routerLinkActive="active">
+          <i class="fas fa-chart-line"></i>
+          <span>My Results</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button (click)="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </button>
+  </div>
+</div> 

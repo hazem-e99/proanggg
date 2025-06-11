@@ -1,0 +1,675 @@
+{
+  "admins": [
+    {
+      "id": "1",
+      "email": "admin@exam.com",
+      "password": "admin123",
+      "name": "Admin User"
+    }
+  ],
+  "students": [
+    {
+      "id": "1749648908323",
+      "name": "Hazem Essam",
+      "email": "zoka.live200000@gmail.com",
+      "password": "112233"
+    },
+    {
+      "id": "1749653945486",
+      "name": "adam",
+      "email": "ahmed@mo.com",
+      "password": "112233"
+    },
+    {
+      "id": "1749655407162",
+      "name": "menna adnan",
+      "email": "menna@ad.com",
+      "password": "112233"
+    }
+  ],
+  "exams": [
+    {
+      "id": "df13",
+      "title": "math",
+      "description": ".................",
+      "startTime": "2025-06-11T16:35",
+      "duration": 10,
+      "endTime": "2025-06-11T16:45",
+      "totalMarks": 10
+    },
+    {
+      "id": "4d67",
+      "title": "math 2",
+      "description": "................",
+      "startTime": "2025-06-11T16:54",
+      "duration": 10,
+      "endTime": "2025-06-11T17:04",
+      "totalMarks": 10
+    },
+    {
+      "id": "70f5",
+      "title": "math 3",
+      "description": "............",
+      "startTime": "2025-06-11T16:59",
+      "duration": 10,
+      "endTime": "2025-06-11T17:09",
+      "totalMarks": 10
+    },
+    {
+      "id": "15e2",
+      "title": "math 4",
+      "description": "..............",
+      "startTime": "2025-06-11T17:19",
+      "duration": 10,
+      "endTime": "2025-06-11T17:29",
+      "totalMarks": 10
+    },
+    {
+      "id": "aea8",
+      "title": "math 10",
+      "description": "...........",
+      "startTime": "2025-06-11T17:57",
+      "duration": 120,
+      "endTime": "2025-06-11T19:57",
+      "totalMarks": 10
+    },
+    {
+      "id": "0fea",
+      "title": "math 100",
+      "description": "11111111111111",
+      "startTime": "2025-06-11T18:06",
+      "duration": 120,
+      "endTime": "2025-06-11T20:06",
+      "totalMarks": 20
+    },
+    {
+      "id": "82b7",
+      "title": "math 200",
+      "description": "............",
+      "startTime": "2025-06-11T18:22",
+      "duration": 20,
+      "endTime": "2025-06-11T18:42",
+      "totalMarks": 8
+    },
+    {
+      "id": "fbad",
+      "title": "math5000000000",
+      "description": "1111111111111",
+      "startTime": "2025-06-11T21:42",
+      "duration": 30,
+      "endTime": "2025-06-11T22:12",
+      "totalMarks": 25
+    },
+    {
+      "id": "3e40",
+      "title": "math10000000000",
+      "description": "1111111111111",
+      "startTime": "2025-06-11T21:45",
+      "duration": 30,
+      "endTime": "2025-06-11T22:15",
+      "totalMarks": 20
+    },
+    {
+      "id": "f894",
+      "title": "math999999",
+      "description": "................",
+      "startTime": "2025-06-11T21:50",
+      "duration": 10,
+      "endTime": "2025-06-11T22:00",
+      "totalMarks": 10
+    },
+    {
+      "id": "0def",
+      "title": "math77777",
+      "description": "\n............",
+      "startTime": "2025-06-11T21:56",
+      "duration": 20,
+      "endTime": "2025-06-11T22:16",
+      "totalMarks": 20,
+      "status": "completed"
+    },
+    {
+      "id": "0020",
+      "title": "math555555",
+      "description": "1111111111111",
+      "startTime": "2025-06-11T22:04",
+      "duration": 20,
+      "endTime": "2025-06-11T22:24",
+      "totalMarks": 20
+    },
+    {
+      "id": "45e2",
+      "title": "mothhhhhh",
+      "description": "...............",
+      "startTime": "2025-06-11T22:25",
+      "duration": 20,
+      "endTime": "2025-06-11T22:45",
+      "totalMarks": 20
+    }
+  ],
+  "questions": [
+    {
+      "id": "98ee",
+      "text": "5 * 2 ? ",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "10"
+      ],
+      "correctOption": 3,
+      "examId": "df13"
+    },
+    {
+      "id": "9cbc",
+      "text": "1 * 1 ?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctOption": 0,
+      "examId": "4d67"
+    },
+    {
+      "id": "19c1",
+      "text": "2 * 2 ?",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "10"
+      ],
+      "correctOption": 0,
+      "examId": "70f5"
+    },
+    {
+      "id": "a4a1",
+      "text": "2 * 3",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "10"
+      ],
+      "correctOption": 1,
+      "examId": "15e2"
+    },
+    {
+      "id": "91a9",
+      "text": "5 / 5 ?",
+      "options": [
+        "1",
+        "10",
+        "2",
+        "6"
+      ],
+      "correctOption": 0,
+      "examId": "aea8"
+    },
+    {
+      "id": "f180",
+      "text": " 1  * 11 ?",
+      "options": [
+        "11",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctOption": 0,
+      "examId": "0fea"
+    },
+    {
+      "id": "dd04",
+      "text": " 2 * 5 ? ",
+      "options": [
+        "10",
+        "21",
+        "3",
+        "4"
+      ],
+      "correctOption": 0,
+      "examId": "0fea"
+    },
+    {
+      "text": "6 * 2 ? ??",
+      "options": [
+        "15",
+        "12",
+        "14",
+        "22"
+      ],
+      "correctOption": 1,
+      "examId": "0fea",
+      "marks": 5,
+      "id": "05ea"
+    },
+    {
+      "id": "4b92",
+      "text": "5 * 2 ?",
+      "options": [
+        "10",
+        "5",
+        "6",
+        "2"
+      ],
+      "correctOption": 0,
+      "examId": "82b7"
+    },
+    {
+      "id": "bdce",
+      "text": "10 / 2 ?",
+      "options": [
+        "5",
+        "2",
+        "3",
+        "1"
+      ],
+      "correctOption": 0,
+      "examId": "82b7"
+    },
+    {
+      "id": "69ca",
+      "text": " 2 * 2 ?",
+      "options": [
+        "4",
+        "6",
+        "87",
+        "10"
+      ],
+      "correctOption": 0,
+      "examId": "fbad"
+    },
+    {
+      "id": "4459",
+      "text": "2 * 9",
+      "options": [
+        "18",
+        "2",
+        "1",
+        "3"
+      ],
+      "correctOption": 0,
+      "examId": "3e40"
+    },
+    {
+      "id": "044e",
+      "text": "2 * 10 ?",
+      "options": [
+        "15",
+        "20",
+        "30",
+        "40"
+      ],
+      "correctOption": 1,
+      "examId": "f894"
+    },
+    {
+      "id": "e21c",
+      "text": "5 * 10 ?",
+      "options": [
+        "50",
+        "20",
+        "10",
+        "2"
+      ],
+      "correctOption": 0,
+      "examId": "0def"
+    },
+    {
+      "id": "f063",
+      "text": "2 *4 ? ",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "8"
+      ],
+      "correctOption": 3,
+      "examId": "0020"
+    },
+    {
+      "id": "0cd0",
+      "text": "1 + 1 ?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctOption": 1,
+      "examId": "45e2"
+    }
+  ],
+  "submissions": [
+    {
+      "id": "08e8",
+      "examId": "df13",
+      "userId": "1749648908323",
+      "answers": [
+        {
+          "questionId": "98ee",
+          "selectedAnswer": 4
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T13:36:45.068Z"
+    },
+    {
+      "id": "00b8",
+      "examId": "df13",
+      "userId": "1749648908323",
+      "answers": [
+        {
+          "questionId": "98ee",
+          "selectedAnswer": 4
+        }
+      ],
+      "timeTaken": 26,
+      "submittedAt": "2025-06-11T13:37:32.104Z"
+    },
+    {
+      "id": "9f47",
+      "examId": "df13",
+      "userId": "1749648908323",
+      "answers": [
+        {
+          "questionId": "98ee",
+          "selectedAnswer": 4
+        }
+      ],
+      "timeTaken": 6,
+      "submittedAt": "2025-06-11T13:38:02.396Z"
+    },
+    {
+      "id": "aeb8",
+      "examId": "df13",
+      "userId": "1749648908323",
+      "answers": [
+        {
+          "questionId": "98ee",
+          "selectedAnswer": 4
+        }
+      ],
+      "timeTaken": 7,
+      "submittedAt": "2025-06-11T13:38:30.533Z"
+    },
+    {
+      "id": "7943",
+      "examId": "4d67",
+      "userId": "1749648908323",
+      "answers": [
+        {
+          "questionId": "9cbc",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T13:55:05.046Z"
+    },
+    {
+      "id": "6627",
+      "examId": "70f5",
+      "userId": "1749648908323",
+      "answers": [
+        {
+          "questionId": "19c1",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 4,
+      "submittedAt": "2025-06-11T14:00:31.208Z",
+      "score": 0,
+      "passed": false,
+      "totalQuestions": 1,
+      "correctAnswers": 0,
+      "wrongAnswers": 1,
+      "unansweredQuestions": 0,
+      "examTitle": "math 3",
+      "status": "completed"
+    },
+    {
+      "id": "fa26",
+      "examId": "15e2",
+      "userId": "1749648908323",
+      "answers": [
+        {
+          "questionId": "a4a1",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T14:19:59.185Z"
+    },
+    {
+      "id": "df23",
+      "examId": "aea8",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "91a9",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 11,
+      "submittedAt": "2025-06-11T14:59:24.087Z"
+    },
+    {
+      "id": "3b0d",
+      "examId": "aea8",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "91a9",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 4,
+      "submittedAt": "2025-06-11T14:59:39.075Z"
+    },
+    {
+      "id": "59eb",
+      "examId": "0fea",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "f180",
+          "selectedAnswer": 1
+        },
+        {
+          "questionId": "dd04",
+          "selectedAnswer": 1
+        },
+        {
+          "questionId": "05ea",
+          "selectedAnswer": 3
+        }
+      ],
+      "timeTaken": 13,
+      "submittedAt": "2025-06-11T15:07:39.581Z"
+    },
+    {
+      "id": "e302",
+      "examId": "aea8",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "91a9",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 6,
+      "submittedAt": "2025-06-11T15:23:41.066Z"
+    },
+    {
+      "id": "019e",
+      "examId": "fbad",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "69ca",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 14,
+      "submittedAt": "2025-06-11T18:43:04.814Z"
+    },
+    {
+      "id": "9043",
+      "examId": "fbad",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "69ca",
+          "selectedAnswer": 2
+        }
+      ],
+      "timeTaken": 6,
+      "submittedAt": "2025-06-11T18:43:41.736Z"
+    },
+    {
+      "id": "69f4",
+      "examId": "fbad",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "69ca",
+          "selectedAnswer": 3
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T18:44:05.497Z"
+    },
+    {
+      "id": "dbaf",
+      "examId": "3e40",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "4459",
+          "selectedAnswer": 3
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T18:45:07.240Z"
+    },
+    {
+      "id": "9fbf",
+      "examId": "3e40",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "4459",
+          "selectedAnswer": 3
+        }
+      ],
+      "timeTaken": 3,
+      "submittedAt": "2025-06-11T18:48:02.546Z"
+    },
+    {
+      "id": "2d51",
+      "examId": "f894",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "044e",
+          "selectedAnswer": 3
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T18:50:16.892Z"
+    },
+    {
+      "id": "ef82",
+      "examId": "3e40",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "4459",
+          "selectedAnswer": 3
+        }
+      ],
+      "timeTaken": 3,
+      "submittedAt": "2025-06-11T18:54:40.901Z",
+      "score": 0,
+      "totalQuestions": 1,
+      "correctAnswers": 0,
+      "wrongAnswers": 1,
+      "unansweredQuestions": 0,
+      "status": "completed"
+    },
+    {
+      "id": "0282",
+      "examId": "fbad",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "69ca",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T18:54:49.612Z",
+      "score": 100,
+      "totalQuestions": 1,
+      "correctAnswers": 1,
+      "wrongAnswers": 0,
+      "unansweredQuestions": 0,
+      "status": "completed"
+    },
+    {
+      "id": "ce1b",
+      "examId": "0def",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "e21c",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 3,
+      "submittedAt": "2025-06-11T18:57:07.145Z"
+    },
+    {
+      "id": "e585",
+      "examId": "0def",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "e21c",
+          "selectedAnswer": 3
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T18:58:20.778Z",
+      "status": "completed"
+    },
+    {
+      "id": "2c93",
+      "examId": "0def",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "e21c",
+          "selectedAnswer": 1
+        }
+      ],
+      "timeTaken": 2,
+      "submittedAt": "2025-06-11T18:59:23.999Z"
+    },
+    {
+      "id": "0193",
+      "examId": "0020",
+      "userId": "2",
+      "answers": [
+        {
+          "questionId": "f063",
+          "selectedAnswer": 4
+        }
+      ],
+      "timeTaken": 3,
+      "submittedAt": "2025-06-11T19:06:58.232Z"
+    }
+  ]
+}

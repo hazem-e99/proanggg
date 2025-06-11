@@ -1,0 +1,18 @@
+<div class="container mt-5">
+  <h3 class="mb-4">Edit Exam</h3>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+      <label class="form-label">Exam Title</label>
+      <input type="text" formControlName="title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea formControlName="description" class="form-control"></textarea>
+    </div>
+
+    <button class="btn btn-primary">💾 Save Changes</button>
+    <a routerLink="/admin/exams" class="btn btn-secondary ms-2">⬅️ Back</a>
+  </form>
+</div>

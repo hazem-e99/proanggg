@@ -1,0 +1,149 @@
+<div class="container">
+  <div class="form-container">
+    <h2>Add Questions</h2>
+
+    <!-- Initial setup for number of questions -->
+    <div class="initial-setup" *ngIf="!questions.length">
+      <div class="form-group">
+        <label for="numberOfQuestions">How many questions do you want to add?</label>
+        <input
+          type="number"
+          id="numberOfQuestions"
+          class="form-control"
+          [(ngModel)]="numberOfQuestions"
+          min="1"
+          max="50"
+        />
+      </div>
+      <button class="btn btn-primary" (click)="startAddingQuestions()" [disabled]="numberOfQuestions < 1">
+        Start Adding Questions
+      </button>
+    </div>
+
+    <!-- Question form -->
+    <form [formGroup]="questionForm" (ngSubmit)="nextQuestion()" *ngIf="questions.length > 0">
+      <div class="question-card">
+        <h3>Question {{currentQuestionIndex + 1}} of {{questions.length}}</h3>
+        
+        <div class="form-group">
+          <label for="questionText">Question Text</label>
+            <textarea
+            id="questionText"
+              class="form-control"
+              formControlName="text"
+              placeholder="Enter your question here..."
+            rows="3"
+            ></textarea>
+        </div>
+
+        <div class="options-container">
+          <div class="form-group">
+            <label for="option1">Option 1</label>
+            <div class="option-input">
+              <input
+                type="text"
+                id="option1"
+                class="form-control"
+                formControlName="option1"
+                placeholder="Enter option 1"
+              />
+              <div class="correct-option">
+                <input
+                  type="radio"
+                  name="correctOption"
+                  value="0"
+                  formControlName="correctOption"
+                />
+                <label>Correct Answer</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="option2">Option 2</label>
+              <div class="option-input">
+                <input
+                  type="text"
+                id="option2"
+                class="form-control"
+                formControlName="option2"
+                placeholder="Enter option 2"
+              />
+              <div class="correct-option">
+                <input
+                  type="radio"
+                  name="correctOption"
+                  value="1"
+                  formControlName="correctOption"
+                />
+                <label>Correct Answer</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="option3">Option 3</label>
+            <div class="option-input">
+              <input
+                type="text"
+                id="option3"
+                  class="form-control"
+                formControlName="option3"
+                placeholder="Enter option 3"
+              />
+              <div class="correct-option">
+                <input
+                  type="radio"
+                  name="correctOption"
+                  value="2"
+                  formControlName="correctOption"
+                />
+                <label>Correct Answer</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="option4">Option 4</label>
+            <div class="option-input">
+              <input
+                type="text"
+                id="option4"
+                class="form-control"
+                formControlName="option4"
+                placeholder="Enter option 4"
+                />
+                <div class="correct-option">
+                  <input
+                    type="radio"
+                  name="correctOption"
+                  value="3"
+                    formControlName="correctOption"
+                  />
+                  <label>Correct Answer</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="btn btn-secondary" 
+          (click)="previousQuestion()" 
+          [disabled]="currentQuestionIndex === 0"
+        >
+          Previous Question
+        </button>
+        <button
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="!questionForm.valid"
+        >
+          {{ isLastQuestion() ? 'Save All Questions' : 'Next Question' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

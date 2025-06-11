@@ -1,0 +1,312 @@
+<div class="container">
+  <div class="header">
+    <div class="header-content">
+      <button class="back-button" (click)="router.navigate(['/admin/exams'])">
+        <i class="fas fa-arrow-left"></i>
+        Back to Exams
+      </button>
+      <h1>Questions Management</h1>
+      <p class="subtitle" *ngIf="currentExamId">
+        {{ getExamTitle(currentExamId) }}
+      </p>
+    </div>
+    <div class="header-actions">
+      <button class="add-button" (click)="toggleAddForm()">
+        <i class="fas fa-plus"></i>
+        Add Question
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-question-circle"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{filteredQuestions.length}}</span>
+        <span class="stat-label">Questions</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-star"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{getTotalMarks()}}</span>
+        <span class="stat-label">Total Marks</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add New Question Form -->
+  <div class="form-container" *ngIf="showAddForm">
+    <div class="form-header">
+      <h2>Add New Question</h2>
+      <button class="close-button" (click)="toggleAddForm()">
+        <i class="fas fa-times"></i>
+            </button>
+    </div>
+    <form [formGroup]="addForm" (ngSubmit)="addQuestion()" class="question-form">
+      <input type="hidden" formControlName="examId" [value]="currentExamId">
+      <div class="form-group" *ngIf="!currentExamId">
+        <label for="examId">Exam</label>
+        <select id="examId" formControlName="examId" class="form-control">
+          <option value="">Select an exam</option>
+          <option *ngFor="let exam of exams" [value]="exam.id">{{exam.title}}</option>
+        </select>
+        <div class="error-message" *ngIf="addForm.get('examId')?.invalid && addForm.get('examId')?.touched">
+          Please select an exam
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="questionText">Question Text</label>
+        <textarea 
+          id="questionText" 
+          formControlName="text" 
+          rows="3" 
+          placeholder="Enter your question here..."
+          [class.is-invalid]="addForm.get('text')?.invalid && addForm.get('text')?.touched"
+          required
+        ></textarea>
+        <div class="error-message" *ngIf="addForm.get('text')?.invalid && addForm.get('text')?.touched">
+          Question text is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Options</label>
+        <div formArrayName="options" class="options-container">
+          <div *ngFor="let option of getOptions(addForm).controls; let i = index" [formGroupName]="i" class="option-item">
+            <div class="option-input">
+              <input 
+                type="radio" 
+                [value]="i" 
+                [formControl]="getCorrectOptionControl(addForm)" 
+                class="correct-option"
+                [id]="'correct-' + i"
+                required
+              >
+              <input 
+                type="text" 
+                formControlName="text" 
+                [placeholder]="'Option ' + (i + 1)"
+                [class.is-invalid]="option.get('text')?.invalid && option.get('text')?.touched"
+                required
+              >
+            </div>
+            <div class="error-message" *ngIf="option.get('text')?.invalid && option.get('text')?.touched">
+              Option text is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="marks">Marks</label>
+        <input 
+          type="number" 
+          id="marks" 
+          formControlName="marks" 
+          min="1"
+          [class.is-invalid]="addForm.get('marks')?.invalid && addForm.get('marks')?.touched"
+          required
+        >
+        <div class="error-message" *ngIf="addForm.get('marks')?.invalid && addForm.get('marks')?.touched">
+          Marks must be at least 1
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-button" (click)="toggleAddForm()">Cancel</button>
+        <button type="submit" class="submit-button" [disabled]="!addForm.valid">
+          Add Question
+          <span *ngIf="!addForm.valid" class="validation-hint">(Please fill all required fields)</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Questions Container -->
+  <div class="questions-container">
+    <div class="questions-header">
+      <h2>Questions List</h2>
+      <div class="filters-container">
+        <!-- Exam Filter -->
+        <div class="filter-group">
+          <select 
+            [(ngModel)]="selectedExamId" 
+            (change)="filterByExam($event)"
+            class="filter-select"
+          >
+            <option value="">All Exams</option>
+            <option *ngFor="let exam of exams" [value]="exam.id">
+              {{exam.title}}
+            </option>
+          </select>
+        </div>
+
+        <!-- Marks Range Filter -->
+        <div class="filter-group marks-range">
+          <label>Marks Range:</label>
+          <input 
+            type="number" 
+            [(ngModel)]="minMarks" 
+            (input)="filterByMarksRange($event, 'min')"
+            placeholder="Min"
+            min="0"
+            class="marks-input"
+          >
+          <span>to</span>
+          <input 
+            type="number" 
+            [(ngModel)]="maxMarks" 
+            (input)="filterByMarksRange($event, 'max')"
+            placeholder="Max"
+            min="0"
+            class="marks-input"
+          >
+        </div>
+
+        <!-- Sort Options -->
+        <div class="filter-group">
+          <button 
+            class="sort-button" 
+            [class.active]="sortBy === 'marks'"
+            (click)="sortQuestions('marks')"
+          >
+            Sort by Marks
+            <i class="fas" [class.fa-sort-up]="sortBy === 'marks' && sortDirection === 'asc'"
+                         [class.fa-sort-down]="sortBy === 'marks' && sortDirection === 'desc'"
+                         [class.fa-sort]="sortBy !== 'marks'"></i>
+          </button>
+          <button 
+            class="sort-button" 
+            [class.active]="sortBy === 'exam'"
+            (click)="sortQuestions('exam')"
+          >
+            Sort by Exam
+            <i class="fas" [class.fa-sort-up]="sortBy === 'exam' && sortDirection === 'asc'"
+                         [class.fa-sort-down]="sortBy === 'exam' && sortDirection === 'desc'"
+                         [class.fa-sort]="sortBy !== 'exam'"></i>
+          </button>
+        </div>
+
+        <!-- Clear Filters -->
+        <button 
+          class="clear-filters-button" 
+          (click)="clearFilters()"
+          [disabled]="!isFiltered"
+        >
+          <i class="fas fa-times"></i>
+          Clear Filters
+        </button>
+      </div>
+    </div>
+
+    <div class="questions-list">
+      <div class="question-card" *ngFor="let question of filteredQuestions">
+        <div class="question-content">
+          <div class="question-header">
+            <div class="question-title">
+              <h3>{{question.text}}</h3>
+              <span class="marks-badge">{{question.marks}} marks</span>
+            </div>
+            <div class="question-actions">
+              <button class="edit-button" (click)="startEdit(question)" title="Edit Question">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-button" (click)="deleteQuestion(question.id)" title="Delete Question">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="options-list">
+            <div *ngFor="let option of question.options; let i = index" class="option-item">
+              <span class="option-number">{{i + 1}}</span>
+              <span class="option-text" [class.correct]="i === question.correctOption">{{option}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-results" *ngIf="filteredQuestions.length === 0">
+      <i class="fas fa-search"></i>
+      <h3>No questions found</h3>
+      <p>Try adjusting your search criteria</p>
+    </div>
+  </div>
+
+  <!-- Edit Question Modal -->
+  <div class="modal" *ngIf="editingQuestion">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Question</h2>
+        <button class="close-button" (click)="cancelEdit()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="question-form">
+        <div class="form-group">
+          <label for="editQuestionText">Question Text</label>
+          <textarea 
+            id="editQuestionText" 
+            formControlName="text" 
+            rows="3"
+            [class.is-invalid]="editForm.get('text')?.invalid && editForm.get('text')?.touched"
+          ></textarea>
+          <div class="error-message" *ngIf="editForm.get('text')?.invalid && editForm.get('text')?.touched">
+            Question text is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Options</label>
+          <div formArrayName="options" class="options-container">
+            <div *ngFor="let option of getOptions(editForm).controls; let i = index" [formGroupName]="i" class="option-item">
+              <div class="option-input">
+                <input 
+                  type="radio" 
+                  [value]="i" 
+                  [formControl]="getCorrectOptionControl(editForm)" 
+                  class="correct-option"
+                  [id]="'edit-correct-' + i"
+                >
+                <input 
+                  type="text" 
+                  formControlName="text"
+                  [placeholder]="'Option ' + (i + 1)"
+                  [class.is-invalid]="option.get('text')?.invalid && option.get('text')?.touched"
+                >
+              </div>
+              <div class="error-message" *ngIf="option.get('text')?.invalid && option.get('text')?.touched">
+                Option text is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editMarks">Marks</label>
+          <input 
+            type="number" 
+            id="editMarks" 
+            formControlName="marks" 
+            min="1"
+            [class.is-invalid]="editForm.get('marks')?.invalid && editForm.get('marks')?.touched"
+          >
+          <div class="error-message" *ngIf="editForm.get('marks')?.invalid && editForm.get('marks')?.touched">
+            Marks must be at least 1
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="cancel-button" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="submit-button" [disabled]="!editForm.valid">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

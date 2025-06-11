@@ -1,0 +1,17 @@
+<div class="exam-info">
+  <div class="exam-title">{{ exam.title }}</div>
+  <div class="exam-details">
+    <div class="detail-item">
+      <i class="fas fa-clock"></i>
+      <span>{{ exam.duration }} دقيقة</span>
+    </div>
+    <div class="detail-item">
+      <i class="fas fa-question-circle"></i>
+      <span>{{ exam.questions?.length || 0 }} سؤال</span>
+    </div>
+    <div class="detail-item">
+      <i class="fas fa-star"></i>
+      <span>{{ exam.totalMarks }} درجة</span>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,152 @@
+<!-- Exam Container -->
+<div class="exam-container">
+  <!-- Loading State -->
+  <div class="loading" *ngIf="isLoading">
+    <div class="loading-content">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+      <h2>Loading Exam</h2>
+      <span class="loading-subtext">Please wait...</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="error">
+    <div class="error-content">
+      <i class="fas fa-exclamation-circle"></i>
+      <h2>An Error Occurred</h2>
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="loadQuestions()">
+        <i class="fas fa-redo"></i>
+        Retry
+      </button>
+    </div>
+  </div>
+
+  <!-- Exam Content -->
+  <ng-container *ngIf="!isLoading && !error">
+    <div class="exam-header">
+      <div class="exam-info">
+        <div class="exam-title">
+          <i class="fas fa-file-alt"></i>
+          <h1>Exam</h1>
+        </div>
+        <p class="exam-description">Please read the questions carefully and answer all of them</p>
+      </div>
+      <div class="timer" 
+           [class.safe]="timeLeft > 300"
+           [class.warning]="timeLeft <= 300 && timeLeft > 60"
+           [class.danger]="timeLeft <= 60">
+        <i class="fas fa-clock"></i>
+        <div class="timer-info">
+          <span class="timer-label">Time Remaining</span>
+          <span class="timer-value">{{ formatTime(timeLeft) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-info">
+        <span class="progress-label">Exam Progress</span>
+        <span class="progress-percentage">{{ (answeredQuestions / questions.length) * 100 | number:'1.0-0' }}%</span>
+      </div>
+      <div class="progress-bar-wrapper">
+        <div class="progress-bar" [style.width.%]="(answeredQuestions / questions.length) * 100"></div>
+      </div>
+      <div class="progress-text">
+        {{ answeredQuestions }} of {{ questions.length }} questions answered
+      </div>
+    </div>
+
+    <!-- Questions Form -->
+    <form [formGroup]="form" class="questions-form">
+      <div class="question-card" 
+           [class.answered]="form.get(questions[currentQuestionIndex].id)?.value">
+        <div class="question-header">
+          <div class="question-info">
+            <span class="question-number">Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}</span>
+            <span class="question-type">{{ questions[currentQuestionIndex].type === 'multiple_choice' ? 'Multiple Choice' : questions[currentQuestionIndex].type }}</span>
+          </div>
+          <span class="question-status" *ngIf="form.get(questions[currentQuestionIndex].id)?.value">
+            <i class="fas fa-check"></i>
+            Answered
+          </span>
+        </div>
+        
+        <div class="question-content">
+          <p class="question-text">{{ questions[currentQuestionIndex].questionText }}</p>
+          <div class="options-list">
+            <label class="option-item" *ngFor="let opt of questions[currentQuestionIndex].options">
+              <input type="radio" 
+                     [formControlName]="questions[currentQuestionIndex].id" 
+                     [value]="opt.id" 
+                     class="option-input">
+              <span class="option-label">
+                <span class="option-marker"></span>
+                <span class="option-text">{{ opt.text }}</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="exam-actions">
+        <div class="nav-buttons">
+          <button type="button" 
+                  class="nav-btn" 
+                  (click)="previousQuestion()" 
+                  [disabled]="currentQuestionIndex === 0">
+            <i class="fas fa-arrow-right"></i>
+            Previous
+          </button>
+          <button type="button" 
+                  class="nav-btn" 
+                  (click)="nextQuestion()" 
+                  [disabled]="currentQuestionIndex === questions.length - 1">
+            Next
+            <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
+        <button type="button" 
+                class="end-exam-btn" 
+                (click)="endExam()" 
+                [disabled]="isSubmitting">
+          <i class="fas fa-stop-circle"></i>
+          End Exam
+        </button>
+      </div>
+  </form>
+  </ng-container>
+
+  <!-- Confirmation Modal -->
+  <div class="modal" *ngIf="showConfirmModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Confirm End Exam</h2>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to end the exam?</p>
+        <p class="warning-text">
+          <i class="fas fa-exclamation-triangle"></i>
+          This action cannot be undone. Your answers will be submitted as is.
+        </p>
+        <div class="answers-summary">
+          <p>Questions Answered: {{ answeredQuestions }}/{{ questions.length }}</p>
+          <p>Time Remaining: {{ formatTime(timeLeft) }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="showConfirmModal = false">
+          <i class="fas fa-times"></i>
+          Cancel
+        </button>
+        <button class="confirm-btn" (click)="confirmEndExam()" [disabled]="isSubmitting">
+          <i class="fas fa-check"></i>
+          Yes, End Exam
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

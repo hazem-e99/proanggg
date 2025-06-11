@@ -1,0 +1,251 @@
+<div class="page-container" dir="ltr">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div>
+        <h1>Exam Results</h1>
+        <p class="text-muted">View and analyze student performance</p>
+      </div>
+      <div class="header-actions">
+        <button class="export-btn" (click)="exportResults()">
+          <i class="fas fa-download"></i>
+          Export Results
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ totalStudents }}</h3>
+        <p>Total Students</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-file-alt"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ totalExams }}</h3>
+        <p>Total Exams</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ averageScore | number:'1.0-1' }}%</h3>
+        <p>Average Score</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-trophy"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ highestScore | number:'1.0-1' }}%</h3>
+        <p>Highest Score</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <div class="chart-container">
+      <h3 class="chart-title">Grade Distribution</h3>
+      <apx-chart
+        [series]="scoreDistributionOptions.series"
+        [chart]="scoreDistributionOptions.chart"
+        [plotOptions]="scoreDistributionOptions.plotOptions"
+        [dataLabels]="scoreDistributionOptions.dataLabels"
+        [stroke]="scoreDistributionOptions.stroke"
+        [xaxis]="scoreDistributionOptions.xaxis"
+        [yaxis]="scoreDistributionOptions.yaxis"
+        [fill]="scoreDistributionOptions.fill"
+        [tooltip]="scoreDistributionOptions.tooltip"
+        [colors]="scoreDistributionOptions.colors"
+        [grid]="scoreDistributionOptions.grid">
+      </apx-chart>
+    </div>
+
+    <div class="chart-container">
+      <h3 class="chart-title">Performance Over Time</h3>
+      <apx-chart
+        [series]="performanceOverTimeOptions.series"
+        [chart]="performanceOverTimeOptions.chart"
+        [dataLabels]="performanceOverTimeOptions.dataLabels"
+        [stroke]="performanceOverTimeOptions.stroke"
+        [xaxis]="performanceOverTimeOptions.xaxis"
+        [yaxis]="performanceOverTimeOptions.yaxis"
+        [tooltip]="performanceOverTimeOptions.tooltip"
+        [fill]="performanceOverTimeOptions.fill"
+        [colors]="performanceOverTimeOptions.colors"
+        [grid]="performanceOverTimeOptions.grid">
+      </apx-chart>
+    </div>
+
+    <div class="chart-container">
+      <h3 class="chart-title">Pass and Fail Rate</h3>
+      <apx-chart
+        [series]="passFailOptions.series"
+        [chart]="passFailOptions.chart"
+        [labels]="passFailOptions.labels"
+        [colors]="passFailOptions.colors"
+        [plotOptions]="passFailOptions.plotOptions"
+        [dataLabels]="passFailOptions.dataLabels"
+        [legend]="passFailOptions.legend"
+        [tooltip]="passFailOptions.tooltip">
+      </apx-chart>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search by student name..." [(ngModel)]="searchTerm" (input)="applyFilters()">
+    </div>
+    <div class="filter-box">
+      <select [(ngModel)]="selectedExamId" (change)="applyFilters()" class="filter-select">
+        <option value="">All Exams</option>
+        <option *ngFor="let exam of exams" [value]="exam.id">{{exam.title}}</option>
+      </select>
+    </div>
+    <div class="filter-box">
+      <select [(ngModel)]="selectedStatus" (change)="applyFilters()" class="filter-select">
+        <option value="">All Status</option>
+        <option value="passed">Passed</option>
+        <option value="failed">Failed</option>
+      </select>
+    </div>
+    <div class="filter-box">
+      <select [(ngModel)]="selectedScoreRange" (change)="applyFilters()" class="filter-select">
+        <option value="">All Scores</option>
+        <option value="90-100">90-100%</option>
+        <option value="80-89">80-89%</option>
+        <option value="70-79">70-79%</option>
+        <option value="60-69">60-69%</option>
+        <option value="0-59">Below 60%</option>
+      </select>
+    </div>
+    <div class="filter-box date-range">
+      <input type="date" [(ngModel)]="startDate" (change)="applyFilters()" class="date-input" placeholder="Start Date">
+      <input type="date" [(ngModel)]="endDate" (change)="applyFilters()" class="date-input" placeholder="End Date">
+    </div>
+    <button class="clear-filters" (click)="clearFilters()" *ngIf="isFiltered">
+      <i class="fas fa-times"></i>
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- Results Table -->
+  <div class="results-container">
+    <div class="table-responsive">
+      <table class="results-table" *ngIf="filteredResults.length > 0; else noResults">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Exam Title</th>
+            <th>Score</th>
+            <th>Percentage</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of filteredResults">
+            <td>{{ result.studentName }}</td>
+            <td>{{ result.examTitle }}</td>
+            <td>{{ result.correctAnswers }}/{{ result.totalMarks }}</td>
+            <td>{{ result.score | number:'1.0-1' }}%</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(result)">
+                {{ getStatusText(result) }}
+              </span>
+            </td>
+            <td>{{ result.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <button class="action-btn view" (click)="viewDetails(result)" title="View Details">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="action-btn delete" (click)="deleteResult(result.id)" title="Delete Result">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noResults>
+      <div class="no-results">
+        <i class="fas fa-search"></i>
+        <h3>No Results Found</h3>
+        <p>Try adjusting your search or filter criteria</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Result Details Modal -->
+  <div class="modal" [class.show]="showModal" *ngIf="selectedResult">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Result Details</h2>
+        <button class="close-btn" (click)="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-item">
+          <label>Student:</label>
+          <span>{{ selectedResult.studentName }}</span>
+        </div>
+        <div class="detail-item">
+          <label>Exam:</label>
+          <span>{{ selectedResult.examTitle }}</span>
+        </div>
+        <div class="detail-item">
+          <label>Score:</label>
+          <span>{{ selectedResult.correctAnswers }}/{{ selectedResult.totalMarks }}</span>
+        </div>
+        <div class="detail-item">
+          <label>Percentage:</label>
+          <span>{{ selectedResult.score | number:'1.0-1' }}%</span>
+        </div>
+        <div class="detail-item">
+          <label>Status:</label>
+          <span class="status-badge" [ngClass]="getStatusClass(selectedResult)">
+            {{ getStatusText(selectedResult) }}
+          </span>
+        </div>
+        <div class="detail-item">
+          <label>Time Taken:</label>
+          <span>{{ selectedResult.timeTaken }} minutes</span>
+        </div>
+        <div class="detail-item">
+          <label>Correct Answers:</label>
+          <span>{{ selectedResult.correctAnswers }}</span>
+        </div>
+        <div class="detail-item">
+          <label>Wrong Answers:</label>
+          <span>{{ selectedResult.wrongAnswers }}</span>
+        </div>
+        <div class="detail-item">
+          <label>Unanswered Questions:</label>
+          <span>{{ selectedResult.unansweredQuestions }}</span>
+        </div>
+        <div class="detail-item">
+          <label>Passing Score:</label>
+          <span>{{ selectedResult.passingMarks }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

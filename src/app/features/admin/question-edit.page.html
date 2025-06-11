@@ -1,0 +1,42 @@
+<div class="container mt-5">
+  <h3 class="mb-4">✏️ Edit Question</h3>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+      <label class="form-label">Question Text</label>
+      <input type="text" class="form-control" formControlName="text" />
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Option 1</label>
+        <input type="text" class="form-control" formControlName="option1" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Option 2</label>
+        <input type="text" class="form-control" formControlName="option2" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Option 3</label>
+        <input type="text" class="form-control" formControlName="option3" />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Option 4</label>
+        <input type="text" class="form-control" formControlName="option4" />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Correct Answer</label>
+      <select class="form-select" formControlName="correctAnswer">
+        <option [value]="form.value.option1">{{ form.value.option1 }}</option>
+        <option [value]="form.value.option2">{{ form.value.option2 }}</option>
+        <option [value]="form.value.option3">{{ form.value.option3 }}</option>
+        <option [value]="form.value.option4">{{ form.value.option4 }}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+    <a [routerLink]="['/admin/questions']" [queryParams]="{ examId: examId }" class="btn btn-secondary ms-2">⬅️ Back</a>
+  </form>
+</div>
